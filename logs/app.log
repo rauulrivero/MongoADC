@@ -1,0 +1,108 @@
+2024-04-10 18:21:23,508 INFO werkzeug : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2024-04-10 18:21:23,509 INFO werkzeug : [33mPress CTRL+C to quit[0m
+2024-04-10 18:21:23,510 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:21:24,012 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:21:24,018 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:21:47,684 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:21:47] "[31m[1mPOST / HTTP/1.1[0m" 405 -
+2024-04-10 18:21:50,444 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:21:50] "[31m[1mPOST / HTTP/1.1[0m" 405 -
+2024-04-10 18:21:55,252 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:21:55] "GET / HTTP/1.1" 200 -
+2024-04-10 18:24:48,835 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\config\\config.py', reloading
+2024-04-10 18:24:48,896 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:24:49,571 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:24:49,577 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:24:52,745 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 18:24:52,829 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:39:45,806 INFO werkzeug : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2024-04-10 18:39:45,806 INFO werkzeug : [33mPress CTRL+C to quit[0m
+2024-04-10 18:39:45,808 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:39:46,555 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:39:46,563 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:39:55,733 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:39:55] "GET / HTTP/1.1" 200 -
+2024-04-10 18:39:59,202 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:39:59] "[35m[1mGET /Arsenal HTTP/1.1[0m" 500 -
+2024-04-10 18:40:18,839 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 18:40:18,915 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:40:19,606 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:40:19,613 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:40:46,600 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 18:40:46,679 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:40:47,308 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:40:47,315 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:40:53,526 INFO werkzeug : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2024-04-10 18:40:53,528 INFO werkzeug : [33mPress CTRL+C to quit[0m
+2024-04-10 18:40:53,529 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:40:54,187 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:40:54,193 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:40:59,019 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:40:59] "[35m[1mGET /hola HTTP/1.1[0m" 500 -
+2024-04-10 18:43:58,861 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\services\\ApiQueryService.py', reloading
+2024-04-10 18:43:58,929 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:43:59,522 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:43:59,528 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:46:42,079 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\config\\config.py', reloading
+2024-04-10 18:46:42,141 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:46:42,731 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:46:42,737 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:46:46,948 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\services\\ApiQueryService.py', reloading
+2024-04-10 18:46:47,031 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:46:47,642 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:46:47,648 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:47:56,017 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\services\\ApiQueryService.py', reloading
+2024-04-10 18:47:56,100 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:47:56,752 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:47:56,757 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:51:52,873 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 18:51:52,932 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:51:53,609 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:51:53,615 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:51:56,983 INFO werkzeug : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2024-04-10 18:51:56,983 INFO werkzeug : [33mPress CTRL+C to quit[0m
+2024-04-10 18:51:56,984 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:51:57,676 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:51:57,681 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:52:08,177 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:52:08] "[35m[1mGET /Arsenal HTTP/1.1[0m" 500 -
+2024-04-10 18:53:43,398 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 18:53:43,468 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:53:44,106 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:53:44,113 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:53:46,008 INFO werkzeug : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2024-04-10 18:53:46,008 INFO werkzeug : [33mPress CTRL+C to quit[0m
+2024-04-10 18:53:46,009 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:53:46,739 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:53:46,748 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 18:53:52,929 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 18:53:52] "GET /Arsenal HTTP/1.1" 200 -
+2024-04-10 18:54:16,963 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 18:54:17,025 INFO werkzeug :  * Restarting with stat
+2024-04-10 18:54:17,726 WARNING werkzeug :  * Debugger is active!
+2024-04-10 18:54:17,733 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 19:03:16,510 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 19:03:16,581 INFO werkzeug :  * Restarting with stat
+2024-04-10 19:03:17,190 WARNING werkzeug :  * Debugger is active!
+2024-04-10 19:03:17,196 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 19:03:18,726 INFO werkzeug : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2024-04-10 19:03:18,726 INFO werkzeug : [33mPress CTRL+C to quit[0m
+2024-04-10 19:03:18,728 INFO werkzeug :  * Restarting with stat
+2024-04-10 19:03:19,375 WARNING werkzeug :  * Debugger is active!
+2024-04-10 19:03:19,382 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 19:03:34,817 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 19:03:34] "GET /show_formed_year/Arsenal HTTP/1.1" 200 -
+2024-04-10 19:04:19,479 INFO werkzeug :  * Detected change in 'C:\\Users\\rauul\\Desktop\\GCID 3º\\2º Cuatri\\BDNR\\MongoADC\\src\\routes\\routes.py', reloading
+2024-04-10 19:04:19,551 INFO werkzeug :  * Restarting with stat
+2024-04-10 19:04:20,180 WARNING werkzeug :  * Debugger is active!
+2024-04-10 19:04:20,185 INFO werkzeug :  * Debugger PIN: 297-437-736
+2024-04-10 19:04:22,654 INFO werkzeug : 127.0.0.1 - - [10/Apr/2024 19:04:22] "GET /show_formed_year/Arsenal HTTP/1.1" 200 -
