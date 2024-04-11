@@ -1,6 +1,7 @@
 from src import create_app
 from src.routes.routes import api as api_blueprint
 
+
 app = create_app()
 
 app.register_blueprint(api_blueprint) # Registramos el blueprint de la api que creamos en las rutas, o más si quieres organizarlo por tipo de servicio: login, chat, etc.

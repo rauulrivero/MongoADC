@@ -1,7 +1,6 @@
 import requests
-import config as TSD
 
-class ApiQueryService:
+class TSDApiClient:
     def __init__(self, apiKey):
         self.apiKey = apiKey
         self.base_url = "https://www.thesportsdb.com/api/v1/json/"
