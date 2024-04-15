@@ -6,14 +6,37 @@ from config.config import Config
 
 api = TSDApiClient(Config.THESPORTSDB_API_KEY)
 
-def create_team(team):
-    response = api.make_request("/searchteams.php", t=team)
+def add_event(team1, team2):
+    response = api.make_request("searchevents.php", e=f"{team1}_vs_{team2}")
 
-    print(response['teams'])
-    if response['teams'] == None:
+    if response['event'] == None:
+        return jsonify({'response': 'No se encontraron resultados.'}), 404
+
+
+    mongo.db.events.insert_many(response['events'])
+    return jsonify({'response': "Se ha añadido con éxito."}), 200
+
+
+def add_event_by_season(team1, team2, season):
+    response = api.make_request("/searchevents.php", e=f"{team1}_vs_{team2}", s=season)
+
+    print(response)
+
+    if response['event'] == None:
         return jsonify({'response': 'No se encontraron resultados.'}), 404
     
-    mongo.db.teams.insert_one(response['teams'][0])
+    filtered_events = []
+    for event in response['event']:
+        filtered_event = {
+            "strEvent": event["strEvent"],
+            "dateEventLocal": event["dateEvent"],
+            "strTime": event["strTime"],
+            "strVenue": event["strVenue"]
+        }
+        filtered_events.append(filtered_event)
 
-    
-    return jsonify({'response': "Se ha guardado con éxito."}), 200
+    print(filtered_events)
+
+
+    mongo.db.events.insert_many(filtered_events)
+    return jsonify({'response': "Se ha añadido con éxito."}), 200

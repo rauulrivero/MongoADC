@@ -6,12 +6,10 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config['MONGO_URI'] = Config.MONGO_URI
 
-    print(Config.MONGO_URI)
 
     mongo.init_app(app)
 
     
-
     return app
 
 
