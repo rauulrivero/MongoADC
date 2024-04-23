@@ -17,7 +17,7 @@ def add_event(team1, team2):
     return jsonify({'response': "Se ha añadido con éxito."}), 200
 
 
-def add_event_by_season(team1, team2, season):
+def add_event_by_season_service(team1, team2, season):
     response = api.make_request("/searchevents.php", e=f"{team1}_vs_{team2}", s=season)
 
     print(response)
@@ -31,12 +31,18 @@ def add_event_by_season(team1, team2, season):
             "strEvent": event["strEvent"],
             "dateEventLocal": event["dateEvent"],
             "strTime": event["strTime"],
-            "strVenue": event["strVenue"]
+            "strVenue": event["strVenue"],
+            "intHomeScore": event["intHomeScore"],
+            "intAwayScore": event["intAwayScore"],
         }
         filtered_events.append(filtered_event)
 
-    print(filtered_events)
-
-
     mongo.db.events.insert_many(filtered_events)
     return jsonify({'response': "Se ha añadido con éxito."}), 200
+
+def get_events_by_teams_service(team1, team2):
+    response = mongo.db.events.find({"strEvent": f"{team1}_vs_{team2}"})
+    events = []
+    for event in response:
+        events.append(event)
+    return jsonify(events), 200
