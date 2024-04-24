@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template, request, jsonify
-from src.services.CrudServices import add_event_by_season_service, get_events_by_teams_service
+from flask import Blueprint, render_template, request
+import json
+from src.services.crud_services import add_event_by_season_service, get_events_by_teams_service
+from src.services.csv_services import init_df_football
 
 
 api = Blueprint('api', __name__)
@@ -19,32 +21,32 @@ def add_event_by_season():
     season = data['season']
 
     if not all([local_team, away_team, season]):
-        return jsonify({"error": "Se requieren los nombres de los equipos 'local_team' y 'away_team' y la temporada 'season'."}), 400
+        return json.dumps({"error": "Se requieren los nombres de los equipos 'local_team' y 'away_team' y la temporada 'season'."}), 400
    
     result = add_event_by_season_service(local_team, away_team, season)  # Suponiendo que tienes esta función implementada
         
     # Retorna el resultado de la operación en formato JSON
-    return jsonify({"result": result})
-
+    return result
     
 
 @api.route('/get_events', methods=['POST'])
-def get_events():
+def get_events_route():
     # Asumiendo que recibes los datos en formato JSON en el cuerpo de la solicitud
     data = request.get_json()
     
-    # Verifica si los datos contienen los equipos
-    if 'local_team' in data and 'away_team' in data:
-        local_team = data['local_team']
-        away_team = data['away_team']
+    if not all([data['local_team'], data['away_team']]):
+        return json.dumps({"error": "Se requieren los nombres de los equipos 'local_team' y 'away_team'."}), 400
+    
+    local_team = data['local_team']
+    away_team = data['away_team']
         
-        # Aquí deberías implementar la lógica para obtener los eventos por equipos
-        # desde tu archivo JSON o base de datos
-        events = get_events_by_teams_service(local_team, away_team)  # Suponiendo que tienes esta función implementada
+    events = get_events_by_teams_service(local_team, away_team)  # Suponiendo que tienes esta función implementada
         
-        # Retorna los eventos encontrados en formato JSON
-        return jsonify(events)
-    else:
-        # Si no se proporcionan equipos, devuelve un mensaje de error
-        return jsonify({"error": "Se requieren los nombres de los equipos 'team1' y 'team2'."}), 400
+    return json.dumps({"result" : f"{events}"})
+    
+
+@api.route('/init_df_football', methods=['POST'])
+def init_df_football_route():
+    result = init_df_football()
+    return result
 

@@ -41,8 +41,8 @@ def add_event_by_season_service(team1, team2, season):
     return jsonify({'response': "Se ha añadido con éxito."}), 200
 
 def get_events_by_teams_service(team1, team2):
-    response = mongo.db.events.find({"strEvent": f"{team1}_vs_{team2}"})
+    response = mongo.db.events.find({"strEvent": f"{team1} vs {team2}"})
     events = []
     for event in response:
         events.append(event)
-    return jsonify(events), 200
+    return events, 200
