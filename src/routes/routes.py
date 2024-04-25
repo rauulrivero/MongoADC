@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 import json
 from src.services.api_service import add_event_by_season_service, get_events_by_teams_service
 from src.database.data_processing import init_df_football
-
+from src.predict.predict_model import calcular_clubes_ordenados
 
 api = Blueprint('api', __name__)
 
@@ -49,3 +49,9 @@ def get_events_route():
 def init_df_football_route():
     result = init_df_football()
     return result
+
+@api.route('/calcular_clubes_ordenados', methods=['GET'])
+def calcular_clubes_ordenados_route():
+    result = calcular_clubes_ordenados()
+    return json.dumps(result)
+
