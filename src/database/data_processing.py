@@ -4,6 +4,7 @@ from flask import jsonify
 
 def clean_csv_data():
     appearances_df = pd.read_csv('data\\appearances.csv', encoding='utf-8')
+    appearances_df =  appearances_df.drop('player_current_club_id', axis = 1)
     
 
     club_games_df = pd.read_csv('data\\club_games.csv', encoding='utf-8')
@@ -19,11 +20,19 @@ def clean_csv_data():
     games_df = games_df[['game_id', 'competition_id', 'season', 'date', 'home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals']]
 
     players_df = pd.read_csv('data\\players.csv', encoding='utf-8')
-    players_df =  players_df.drop(['first_name', 'last_name','player_code', 'city_of_birth', 'country_of_birth', 'agent_name', 'image_url', 'url', 'current_club_domestic_competition_id', 'current_club_name', 'highest_market_value_in_eur'], axis = 1)
-    players_df['market_value_in_eur'].fillna(-1, inplace=True)
-    players_df['height_in_cm'].fillna(-1, inplace=True)
+    
+    # Dropping columns
+    columns_to_drop = ['first_name', 'last_name', 'player_code', 'city_of_birth', 'country_of_birth', 'agent_name', 'image_url', 'url', 'current_club_domestic_competition_id', 'current_club_name', 'highest_market_value_in_eur']
+    players_df.drop(columns_to_drop, axis=1, inplace=True)
+
+    # Filling missing values
+    players_df['market_value_in_eur'] = players_df['market_value_in_eur'].fillna(-1)
+    players_df['height_in_cm'] = players_df['height_in_cm'].fillna(-1)
+
+    # Converting columns to numeric
     players_df['market_value_in_eur'] = pd.to_numeric(players_df['market_value_in_eur'], errors='coerce', downcast='integer')
     players_df['height_in_cm'] = pd.to_numeric(players_df['height_in_cm'], errors='coerce', downcast='integer')
+
         
     return appearances_df, club_games_df, clubs_df, competitions_df, games_df, players_df
 
