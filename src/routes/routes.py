@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, request
 import json
 from src.services.api_service import add_event_by_season_service, get_events_by_teams_service
 from src.database.data_processing import init_df_football
-from src.services.mongo_service import get_win_percentage_by_club_id
 
 
 api = Blueprint('api', __name__)
@@ -50,10 +49,3 @@ def get_events_route():
 def init_df_football_route():
     result = init_df_football()
     return result
-
-@api.route('/get_win_percentage_by_club_id', methods=['GET'])
-def get_win_percentage_by_club_id_route():
-    
-    result = get_win_percentage_by_club_id()
-    
-    return json.dumps({"result" : f"{result}"})
