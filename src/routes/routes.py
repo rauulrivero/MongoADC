@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 import json
-from src.services.crud_services import add_event_by_season_service, get_events_by_teams_service
-from src.services.csv_services import init_df_football
+from src.services.api_services import add_event_by_season_service, get_events_by_teams_service
+from src.database.data_processing import init_df_football
 
 
 api = Blueprint('api', __name__)
