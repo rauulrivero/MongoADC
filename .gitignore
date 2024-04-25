@@ -1,3 +1,3 @@
-data/
+src/database/data/
 .env
 .venv/

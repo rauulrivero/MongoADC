@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 import json
-from src.services.api_services import add_event_by_season_service, get_events_by_teams_service
+from src.services.api_service import add_event_by_season_service, get_events_by_teams_service
 from src.database.data_processing import init_df_football
 from src.services.mongo_service import get_win_percentage_by_club_id
 
