@@ -1,3 +1,4 @@
-src/database/data/
+src/database/data
 .env
-.venv/
+.venv
+.gitignore
