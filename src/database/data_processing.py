@@ -51,11 +51,6 @@ def clean_csv_data():
     games_df = pd.read_csv('src\\database\\data\\games.csv', encoding='utf-8')
     games_df = games_df[['game_id', 'competition_id', 'season', 'date', 'home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals']]
     games_df = games_df[games_df['competition_id'].isin(competition_ids)]
-
-    
-    
-    
-
         
     return appearances_df, club_games_df, clubs_df, competitions_df, games_df, players_df
 
