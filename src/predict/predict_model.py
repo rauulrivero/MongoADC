@@ -169,7 +169,7 @@ def create_table():
     df[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
     return df
 
-def comparar_equipos(club_id1, club_id2):
+def compare_teams(club_id1, club_id2):
     # Calcular la distancia entre los clubes
     team1, team2 = calcular_distancia_entre_clubes(club_id1, club_id2)
 

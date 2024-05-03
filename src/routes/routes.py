@@ -1,17 +1,63 @@
-from flask import Blueprint, render_template, request, send_file
+from flask import Blueprint, render_template, request, jsonify
 import json
-from src.services.mongo_service import get_competitions, get_teams_by_competition_id_service
+from src.database.Database import mongo
+from src.services.mongo_service import MongoServices
+from src.auth.auth import Authentication
 from src.services.api_service import add_event_by_season_service, get_events_by_teams_service
 from src.database.data_processing import init_df_football
-from src.predict.predict_model import calcular_clubes_ordenados, comparar_equipos, insert_normalized_df
+from src.predict.predict_model import calcular_clubes_ordenados, compare_teams, insert_normalized_df
 
 
 api = Blueprint('api', __name__)
 
+mongo_service = MongoServices(mongo)
+auth = Authentication()
 
 @api.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
+@api.route('/create_user', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    name = data['name']
+    password = data['password']
+    email = data['email']
+    
+
+    if not all([name, password, email]):
+        return jsonify({"error": "Faltan datos obligatorios"}), 400
+        
+    if mongo_service.user_exists(email):
+        return jsonify({"error": "El usuario ya existe"}), 409
+        
+    mongo_service.create_user(name, email, password)
+    return jsonify({"message": "Usuario creado exitosamente"}), 201
+
+@api.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data['email']
+    password = data['password']
+    
+    if not all([email, password]):
+        return jsonify({"error": "Faltan datos obligatorios"}), 400
+    
+    user = mongo_service.get_user(email)
+    if user is None:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    
+    if user['password'] != password:
+        return jsonify({"error": "Contraseña incorrecta"}), 401
+    
+    auth.set_user(email, password)
+    return jsonify({"message": "Inicio de sesión exitoso"}), 200
+
+@api.route('/logout', methods=['POST'])
+def logout():
+    auth.logout()
+    return jsonify({"message": "Cierre de sesión exitoso"}), 200
+
 
 @api.route('/add_event_by_season', methods=['POST'])
 def add_event_by_season():
@@ -42,7 +88,7 @@ def get_events_route():
     local_team = data['local_team']
     away_team = data['away_team']
         
-    events = get_events_by_teams_service(local_team, away_team)  # Suponiendo que tienes esta función implementada
+    events = get_events_by_teams_service(local_team, away_team) 
         
     return json.dumps({"result" : f"{events}"})
     
@@ -62,26 +108,26 @@ def calcular_clubes_ordenados_route():
     result = calcular_clubes_ordenados()
     return json.dumps(result)
 
-@api.route('/comparar_equipos', methods=['POST'])
-def comparar_equipos_route():
+@api.route('/predict_winner', methods=['POST'])
+def compare_teams_route():
     data = request.get_json()
     
-    if not all([data['club_id1'], data['club_id2']]):
-        return json.dumps({"error": "Se requieren los IDs de los clubes 'club_id1' y 'club_id2'."}), 400
+    if not all([data['local_team_id'], data['away_team_id']]):
+        return json.dumps({"error": "Se requieren los IDs de los clubes 'local_team_id' y 'away_team_id'."}), 400
     
-    club_id1 = data['club_id1']
-    club_id2 = data['club_id2']
+    local_team_id = data['local_team_id']
+    away_team_id = data['away_team_id']
     
-    result = comparar_equipos(club_id1, club_id2)
+    result = compare_teams(local_team_id, away_team_id)
     
-    return json.dumps({"result": result})
+    return json.dumps({"prediction": result})
 
 @api.route('/get_competitions', methods=['GET'])
 def get_competitions_route():
-    result = get_competitions()
+    result = mongo_service.get_competitions()
     return json.dumps(result)
 
 @api.route('/get_teams/<competition_id>', methods=['GET'])
 def get_teams_route(competition_id):
-    result = get_teams_by_competition_id_service(competition_id)
+    result = mongo_service.get_teams_by_competition_id_service(competition_id)
     return json.dumps(result)
