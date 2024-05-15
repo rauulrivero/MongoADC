@@ -29,7 +29,7 @@ python3 --version
 Una vez confirmado el entorno de Python, instala las siguientes librerías requeridas para el funcionamiento del proyecto:
 
 ```bash
-pip install Flask Flask-pymongo streamlit sklearn pymongo pandas python-dotenv
+pip install Flask Flask-pymongo streamlit pymongo pandas python-dotenv scikit-learn
 ```
 
 Nota: Si estás usando un ambiente virtual (lo cual es recomendado), asegúrate de activarlo antes de ejecutar el comando anterior.
@@ -65,9 +65,9 @@ Para comenzar a utilizar la aplicación y tener la base de datos preparada, sigu
 
 1. Descarga de Datos Iniciales:
 
-- Visita la siguiente URL: [Link de descarga](https://www.kaggle.com/datasets/davidcariboo/player-scores)
+- Visita la siguiente URL: [https://www.kaggle.com/datasets/davidcariboo/player-scores](https://www.kaggle.com/datasets/davidcariboo/player-scores)
 - Descarga los archivos CSV: appearances, players, clubs, club_games, games y competitions.
-- Almacenamiento de Datos: Ubica los archivos CSV descargados dentro de tu proyecto en el directorio src/data/. Asegúrate de que los archivos estén en el lugar correcto para su correcta lectura e importación.
+- Almacenamiento de Datos: Ubica los archivos CSV descargados dentro de tu proyecto en el directorio backend/src/data/. Asegúrate de que los archivos estén en el lugar correcto para su correcta lectura e importación.
 
 2. Inicialización de la Base de Datos:
 
@@ -79,7 +79,7 @@ Este paso ejecutará automáticamente todas las acciones necesarias para configu
 ## Funcionalidades de la App
 La aplicación proporciona una serie de funcionalidades diseñadas para amantes del fútbol y analistas, aprovechando un conjunto de datos detallado de las cinco grandes ligas europeas desde 2012. Estas funcionalidades permiten investigar y comparar el rendimiento de los jugadores y equipos de manera profunda.
 
-1. Obtener el 11 Ideal de un Equipo por Temporada
+**1. Obtener el 11 Ideal de un Equipo por Temporada**
 Los usuarios pueden seleccionar cualquier equipo de las cinco grandes ligas de fútbol europeas (Premier League, LaLiga, Serie A, Bundesliga, Ligue 1) y una temporada específica desde 2012 hasta la actualidad. La app analizará el rendimiento de los jugadores basándose en diversas métricas y clusterización para ofrecer el 11 ideal del equipo seleccionado para la temporada elegida.
 
 ¿Cómo usar?
@@ -87,7 +87,7 @@ Los usuarios pueden seleccionar cualquier equipo de las cinco grandes ligas de f
 - Selecciona un equipo y una temporada.
 - La app te mostrará el 11 ideal del equipo para esa temporada.
 
-2. Consultar la Puntuación de un Jugador
+**2. Consultar la Viabilidad de fichaje de un Jugador**
 Gracias a una compleja clusterización basada en múltiples métricas de rendimiento, esta funcionalidad permite a los usuarios elegir un jugador y obtener su puntuación en un rango del 1 al 50. Aquí, 1 representa al mejor jugador y 50 al que se encuentra en la posición más baja dentro del análisis realizado.
 
 ¿Cómo usar?
@@ -95,13 +95,10 @@ Gracias a una compleja clusterización basada en múltiples métricas de rendimi
 - Elige un jugador de las cinco grandes ligas desde 2012.
 - La app te proporcionará una puntuación que refleja su nivel y rendimiento en comparación con otros jugadores, basándose en la clusterización previamente hecha.
 
-3. Comparar Jugadores de Diferentes Equipos
+**3. Comparar Jugadores de Diferentes Equipos**
 Esta funcionalidad permite a los usuarios comparar dos jugadores de diferentes equipos para determinar cuál ha tenido un mejor rendimiento. Utilizando las puntuaciones y métricas definidas en el proceso de clusterización, la app analiza y compara el rendimiento de ambos jugadores para indicar cuál es superior según los datos.
 
 ¿Cómo usar?
 
 - Selecciona dos jugadores de cualquier equipo dentro de las ligas cubiertas y desde 2012.
 - La app analizará su rendimiento y te indicará cuál de los dos es mejor según las métricas definidas.
-
-
-## Uso 
