@@ -6,7 +6,7 @@ from src.auth.auth import Authentication
 from src.database.data_processing import init_df_football, insert_players_df
 from src.services.predict_winner import compare_teams, insert_normalized_df
 from src.services.lineup_by_year import generate_player_lineups_by_season, get_best_players_by_season_and_team
-from src.services.player_clusterization import insert_cluster, get_player_rank
+from src.services.player_clusterization import insert_clusters, get_player_rank
 
 
 
@@ -143,7 +143,7 @@ def initialize_database():
         print("Datos de alineaciones de jugadores generados")
     
         # Inserción de datos de cluster de jugadores
-        insert_cluster()
+        insert_clusters()
 
         print("Datos de cluster de jugadores insertados")
 

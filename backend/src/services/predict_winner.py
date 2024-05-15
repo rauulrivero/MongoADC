@@ -3,125 +3,90 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from flask import jsonify
 
-# Función de normalización
+# Normalization function
 def normalize(value, min_value, max_value):
     return (value - min_value) / (max_value - min_value)
-
-def calcular_clubes_ordenados():
-    # Encontrar valores máximos y mínimos
-    max_win_percentage = mongo.db.clubs.find_one(sort=[("win_percentage", -1)])["win_percentage"]
-    min_win_percentage = mongo.db.clubs.find_one(sort=[("win_percentage", 1)])["win_percentage"]
-    max_club_players_value = mongo.db.clubs.find_one(sort=[("club_players_value", -1)])["club_players_value"]
-    min_club_players_value = mongo.db.clubs.find_one(sort=[("club_players_value", 1)])["club_players_value"]
-
-    print(f"Max win percentage: {max_win_percentage}")
-    print(f"Min win percentage: {min_win_percentage}")
-
-    print(f"Max club players value: {max_club_players_value}")
-    print(f"Min club players value: {min_club_players_value}")
-
-
-
-
-    clubs = mongo.db.clubs.find()
-
-    # Crear una lista para almacenar los clubes con su puntuación calculada
-    calculated_scores = []
-
-    for club in clubs:
-        normalized_wp = normalize(club["win_percentage"], min_win_percentage, max_win_percentage)
-        normalized_pvalue = normalize(club["club_players_value"], min_club_players_value, max_club_players_value)
-
-        # Cálculo de la puntuación total
-        total_score = normalized_wp + normalized_pvalue
-        calculated_scores.append({"name": club["name"], "total_score": total_score})
-
-    # Ordenar los clubes por su puntuación total de mayor a menor
-    sorted_clubs = sorted(calculated_scores, key=lambda x: x["total_score"], reverse=True)
-
-    return sorted_clubs
                                            
-def obtener_ultimos_enfrentamientos_y_puntos_entre_clubs(club_id1, club_id2):
-    # Obtener los últimos 5 enfrentamientos
-    enfrentamientos = list(mongo.db.games.find(
+def get_last_matchups_and_points_between_clubs(club_id1, club_id2):
+    # Get the last 5 matchups
+    matchups = list(mongo.db.games.find(
         {"$or": [{"home_club_id": club_id1, "away_club_id": club_id2}, {"home_club_id": club_id2, "away_club_id": club_id1}]},
         sort=[("date", -1)],
         limit=5
     ))
 
-    puntos_club1 = 0
-    puntos_club2 = 0
+    club1_points = 0
+    club2_points = 0
 
-    for enfrentamiento in enfrentamientos:
-        if enfrentamiento["home_club_id"] == club_id1:
-            if enfrentamiento["home_club_goals"] > enfrentamiento["away_club_goals"]:
-                puntos_club1 += 3
-            elif enfrentamiento["home_club_goals"] == enfrentamiento["away_club_goals"]:
-                puntos_club1 += 1
-                puntos_club2 += 1
+    for matchup in matchups:
+        if matchup["home_club_id"] == club_id1:
+            if matchup["home_club_goals"] > matchup["away_club_goals"]:
+                club1_points += 3
+            elif matchup["home_club_goals"] == matchup["away_club_goals"]:
+                club1_points += 1
+                club2_points += 1
             else:
-                puntos_club2 += 3
+                club2_points += 3
         else:
-            if enfrentamiento["home_club_goals"] > enfrentamiento["away_club_goals"]:
-                puntos_club2 += 3
-            elif enfrentamiento["home_club_goals"] == enfrentamiento["away_club_goals"]:
-                puntos_club1 += 1
-                puntos_club2 += 1
+            if matchup["home_club_goals"] > matchup["away_club_goals"]:
+                club2_points += 3
+            elif matchup["home_club_goals"] == matchup["away_club_goals"]:
+                club1_points += 1
+                club2_points += 1
             else:
-                puntos_club1 += 3
+                club1_points += 3
 
-    return puntos_club1, puntos_club2
+    return club1_points, club2_points
 
-def obtener_ultimos_partidos_y_puntos(club_id):
-    # Obtener los últimos 5 partidos
-    partidos = list(mongo.db.games.find(
+def get_last_matches_and_points(club_id):
+    # Get the last 5 matches
+    matches = list(mongo.db.games.find(
         {"$or": [{"home_club_id": club_id}, {"away_club_id": club_id}]},
         sort=[("date", -1)],
         limit=5
     ))
 
-    puntos = 0
+    points = 0
 
-    # Calcular los puntos para el club
-    for partido in partidos:
-        if partido["home_club_id"] == club_id:
-            if partido["home_club_goals"] > partido["away_club_goals"]:
-                puntos += 3
-            elif partido["home_club_goals"] == partido["away_club_goals"]:
-                puntos += 1
+    # Calculate points for the club
+    for match in matches:
+        if match["home_club_id"] == club_id:
+            if match["home_club_goals"] > match["away_club_goals"]:
+                points += 3
+            elif match["home_club_goals"] == match["away_club_goals"]:
+                points += 1
         else:
-            if partido["away_club_goals"] > partido["home_club_goals"]:
-                puntos += 3
-            elif partido["away_club_goals"] == partido["home_club_goals"]:
-                puntos += 1
+            if match["away_club_goals"] > match["home_club_goals"]:
+                points += 3
+            elif match["away_club_goals"] == match["home_club_goals"]:
+                points += 1
 
-    return puntos
+    return points
 
-
-def calcular_distancia_entre_clubes(club_id1, club_id2):
-    # Obtener los datos de los clubes
+def calculate_distance_between_clubs(club_id1, club_id2):
+    # Get clubs data
     club1 = mongo.db.normalized_data.find_one({"club_id": club_id1})
     club2 = mongo.db.normalized_data.find_one({"club_id": club_id2})
 
     if club1 is None:
-        return "No se ha encontrado el club con el ID proporcionado.", None
+        return "Club with provided ID not found.", None
     if club2 is None:
-        return None, "No se ha encontrado el club con el ID proporcionado."
+        return None, "Club with provided ID not found."
     
-    # Calcular la distancia entre los clubes
-    normalized_pvalue1 = club1["club_players_value"]
-    normalized_pvalue2 = club2["club_players_value"]
+    # Calculate distance between clubs
+    normalized_player_value1 = club1["club_players_value"]
+    normalized_player_value2 = club2["club_players_value"]
     ratio_goals_per_game_team1 = club1["ratio_goals"]
     ratio_goals_per_game_team2 = club2["ratio_goals"]
-    ratio_goals_oponent_team1 = club1["ratio_opponent_goals"]
-    ratio_goals_oponent_team2 = club2["ratio_opponent_goals"]
+    ratio_opponent_goals_team1 = club1["ratio_opponent_goals"]
+    ratio_opponent_goals_team2 = club2["ratio_opponent_goals"]
     global_points1 = club1["points"]
     global_points2 = club2["points"]
-    points1, points2 = obtener_ultimos_enfrentamientos_y_puntos_entre_clubs(club_id1, club_id2)
+    points1, points2 = get_last_matchups_and_points_between_clubs(club_id1, club_id2)
     points1 = normalize(points1, 0, 15)
     points2 = normalize(points2, 0, 15)
-    normalized_wp1 = 0.8*normalized_pvalue1 + 0.92*ratio_goals_per_game_team1- 0.82*ratio_goals_oponent_team1 + 0.49*global_points1 + 0.5*points1
-    normalized_wp2 = 0.8*normalized_pvalue2 + 0.92*ratio_goals_per_game_team2 - 0.82*ratio_goals_oponent_team2 + 0.49*global_points2 + 0.5*points2
+    normalized_wp1 = 0.8 * normalized_player_value1 + 0.92 * ratio_goals_per_game_team1 - 0.82 * ratio_opponent_goals_team1 + 0.49 * global_points1 + 0.5 * points1
+    normalized_wp2 = 0.8 * normalized_player_value2 + 0.92 * ratio_goals_per_game_team2 - 0.82 * ratio_opponent_goals_team2 + 0.49 * global_points2 + 0.5 * points2
 
     normalized_wp1 = normalized_wp1 * 1.1
     
@@ -134,7 +99,7 @@ def insert_normalized_df():
         collection = mongo.db[collection_name]
         records = df.to_dict(orient='records')
         collection.insert_many(records)
-    return jsonify({'response': "Se ha añadido con éxito."}), 200
+    return jsonify({'response': "Successfully added."}), 200
 
 def create_table():
     clubs = list(mongo.db.clubs.find())
@@ -148,7 +113,7 @@ def create_table():
         total_opponent_goals = sum(game['opponent_goals'] for game in mongo.db.club_games.find({"club_id": club_id}))
         ratio_goals = total_goals / num_games if num_games > 0 else 0
         ratio_opponent_goals = total_opponent_goals / num_games if num_games > 0 else 0
-        points = obtener_ultimos_partidos_y_puntos(club_id)
+        points = get_last_matches_and_points(club_id)
 
         data.append({
             "club_id": club_id,
@@ -162,7 +127,7 @@ def create_table():
             "points": points
         })
 
-    # Crear un DataFrame con los datos
+    # Create a DataFrame with the data
     df = pd.DataFrame(data)
     scaler = MinMaxScaler()
     columns_to_scale = ["win_rate", "club_players_value", "num_games", "total_goals", "total_opponent_goals", "ratio_goals", "ratio_opponent_goals", "points"]
@@ -170,20 +135,30 @@ def create_table():
     return df
 
 def compare_teams(club_id1, club_id2):
-    # Calcular la distancia entre los clubes
-    team1, team2 = calcular_distancia_entre_clubes(club_id1, club_id2)
+    # Calculate the distance between clubs
+    team1, team2 = calculate_distance_between_clubs(club_id1, club_id2)
 
     if isinstance(team1, str):
         return team1
     if isinstance(team2, str):
         return team2
 
-    # Obtener los nombres de los clubes
-    nombre_club1 = mongo.db.clubs.find_one({"club_id": club_id1})["name"]
-    nombre_club2 = mongo.db.clubs.find_one({"club_id": club_id2})["name"]
-    if team1 > team2:
-        return f"El equipo {nombre_club1} es mejor que el equipo {nombre_club2}, por tanto apostaría por una victoria de {nombre_club1}."
-    elif team1 < team2:
-        return f"El equipo {nombre_club2} es mejor que el equipo {nombre_club1}, por tanto apostaría por una victoria de {nombre_club2}."
-    else:
-        return f"Ambos equipos ({nombre_club1} y {nombre_club2}) están igualados, para el próximo partido, yo apostaría por un empate."
+    # Get club names
+    club_name1 = mongo.db.clubs.find_one({"club_id": club_id1})["name"]
+    club_name2 = mongo.db.clubs.find_one({"club_id": club_id2})["name"]
+    
+    # Calculate the difference between normalized distances
+    diff = team1 - team2
+    
+    # Calculate probability of victory for each team
+    prob_victory1 = 0.5 + diff * 0.1 
+    prob_victory2 = 0.5 - diff * 0.1
+
+    if abs(prob_victory1 - prob_victory2) < 0.1:
+        return f"Ambos equipos ({club_name1} y {club_name2}) tienen una probabilidad de victoria muy similar ({prob_victory1*100:.2f}% vs {prob_victory2*100:.2f}%), para el próximo partido, yo apostaría por un empate."
+    elif prob_victory1 > prob_victory2:
+        return f"El equipo {club_name1} tiene una probabilidad de victoria del {prob_victory1*100+10:.2f}% frente al {club_name2}, por tanto apostaría por una victoria de {club_name1}."
+    elif prob_victory1 < prob_victory2:
+        return f"El equipo {club_name2} tiene una probabilidad de victoria del {prob_victory1*100+10:.2f}% frente al {club_name1}, por tanto apostaría por una victoria de {club_name2}."
+    else:    
+        return "Error al calcular la probabilidad de victoria."
