@@ -159,6 +159,6 @@ def compare_teams(club_id1, club_id2):
     elif prob_victory1 > prob_victory2:
         return f"El equipo {club_name1} tiene una probabilidad de victoria del {prob_victory1*100+10:.2f}% frente al {club_name2}, por tanto apostaría por una victoria de {club_name1}."
     elif prob_victory1 < prob_victory2:
-        return f"El equipo {club_name2} tiene una probabilidad de victoria del {prob_victory1*100+10:.2f}% frente al {club_name1}, por tanto apostaría por una victoria de {club_name2}."
+        return f"El equipo {club_name2} tiene una probabilidad de victoria del {prob_victory2*100+10:.2f}% frente al {club_name1}, por tanto apostaría por una victoria de {club_name2}."
     else:    
         return "Error al calcular la probabilidad de victoria."
