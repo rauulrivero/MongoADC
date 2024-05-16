@@ -64,7 +64,8 @@ class StreamlitApp:
                 self.get_best_players_by_season_and_team()
            
 
-   
+
+# Funciones para manejar la selección de competiciones, equipos y temporadas
 
     def handle_teams_selection(self):
 
@@ -166,7 +167,6 @@ class StreamlitApp:
             key='prediction_option_select_box'
         )
         st.session_state['selected_prediction_option'] = prediction_option
-        
 
     def handle_competition_selection(self):
         st.title('Selecciona la competición')
@@ -200,6 +200,7 @@ class StreamlitApp:
             st.rerun()
         
 
+# Funciones para manejar las predicciones y funcionalidades de búsqueda
 
     def predict_winner(self):
         response = self.api_handler.post_request('predict_winner', {
@@ -267,6 +268,7 @@ class StreamlitApp:
             st.error("No se han encontrado jugadores")
 
 
+# Funciones para manejar la sección de inicio de sesión
 
     def display_login_section(self):
         email, password = st.text_input("Email"), st.text_input("Contraseña", type="password")

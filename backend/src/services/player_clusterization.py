@@ -5,6 +5,17 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
     
 
+
+# It needs to search in the players_cluster collection for the player_id and return the cluster_rank
+def get_player_rank(player_id):
+    print(player_id)
+    player = mongo.db.players_cluster.find_one({"player_id": int(player_id)})
+    if player is None:
+        return "Player with the provided ID not found."
+    else:
+        return player['cluster_rank']
+
+
 def cluster_defenders(data):
 
     # Select relevant features for clustering
@@ -164,12 +175,4 @@ def insert_clusters():
 
     return {'response': "Successfully added."}
 
-# It needs to search in the players_cluster collection for the player_id and return the cluster_rank
-def get_player_rank(player_id):
-    print(player_id)
-    player = mongo.db.players_cluster.find_one({"player_id": int(player_id)})
-    if player is None:
-        return "Player with the provided ID not found."
-    else:
-        return player['cluster_rank']
 

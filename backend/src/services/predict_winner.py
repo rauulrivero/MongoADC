@@ -3,6 +3,41 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from flask import jsonify
 
+
+
+
+def compare_teams(club_id1, club_id2):
+    # Calculate the distance between clubs
+    team1, team2 = calculate_distance_between_clubs(club_id1, club_id2)
+
+    if isinstance(team1, str):
+        return team1
+    if isinstance(team2, str):
+        return team2
+
+    # Get club names
+    club_name1 = mongo.db.clubs.find_one({"club_id": club_id1})["name"]
+    club_name2 = mongo.db.clubs.find_one({"club_id": club_id2})["name"]
+    
+    # Calculate the difference between normalized distances
+    diff = team1 - team2
+    
+    # Calculate probability of victory for each team
+    prob_victory1 = 0.5 + diff * 0.1 
+    prob_victory2 = 0.5 - diff * 0.1
+
+    if abs(prob_victory1 - prob_victory2) < 0.1:
+        return f"Ambos equipos ({club_name1} y {club_name2}) tienen una probabilidad de victoria muy similar ({prob_victory1*100:.2f}% vs {prob_victory2*100:.2f}%), para el próximo partido, yo apostaría por un empate."
+    elif prob_victory1 > prob_victory2:
+        return f"El equipo {club_name1} tiene una probabilidad de victoria del {prob_victory1*100+10:.2f}% frente al {club_name2}, por tanto apostaría por una victoria de {club_name1}."
+    elif prob_victory1 < prob_victory2:
+        return f"El equipo {club_name2} tiene una probabilidad de victoria del {prob_victory2*100+10:.2f}% frente al {club_name1}, por tanto apostaría por una victoria de {club_name2}."
+    else:    
+        return "Error al calcular la probabilidad de victoria."
+
+
+
+
 # Normalization function
 def normalize(value, min_value, max_value):
     return (value - min_value) / (max_value - min_value)
@@ -133,32 +168,3 @@ def create_table():
     columns_to_scale = ["win_rate", "club_players_value", "num_games", "total_goals", "total_opponent_goals", "ratio_goals", "ratio_opponent_goals", "points"]
     df[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
     return df
-
-def compare_teams(club_id1, club_id2):
-    # Calculate the distance between clubs
-    team1, team2 = calculate_distance_between_clubs(club_id1, club_id2)
-
-    if isinstance(team1, str):
-        return team1
-    if isinstance(team2, str):
-        return team2
-
-    # Get club names
-    club_name1 = mongo.db.clubs.find_one({"club_id": club_id1})["name"]
-    club_name2 = mongo.db.clubs.find_one({"club_id": club_id2})["name"]
-    
-    # Calculate the difference between normalized distances
-    diff = team1 - team2
-    
-    # Calculate probability of victory for each team
-    prob_victory1 = 0.5 + diff * 0.1 
-    prob_victory2 = 0.5 - diff * 0.1
-
-    if abs(prob_victory1 - prob_victory2) < 0.1:
-        return f"Ambos equipos ({club_name1} y {club_name2}) tienen una probabilidad de victoria muy similar ({prob_victory1*100:.2f}% vs {prob_victory2*100:.2f}%), para el próximo partido, yo apostaría por un empate."
-    elif prob_victory1 > prob_victory2:
-        return f"El equipo {club_name1} tiene una probabilidad de victoria del {prob_victory1*100+10:.2f}% frente al {club_name2}, por tanto apostaría por una victoria de {club_name1}."
-    elif prob_victory1 < prob_victory2:
-        return f"El equipo {club_name2} tiene una probabilidad de victoria del {prob_victory2*100+10:.2f}% frente al {club_name1}, por tanto apostaría por una victoria de {club_name2}."
-    else:    
-        return "Error al calcular la probabilidad de victoria."

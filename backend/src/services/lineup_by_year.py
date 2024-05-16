@@ -1,6 +1,23 @@
 from src.database.Database import mongo
 from pymongo import errors
 
+def get_best_players_by_season_and_team(season, club_id):
+    # Obtener jugadores con más minutos jugados por temporada y club
+    pipeline = [
+        {"$match": {"season": season, "club_id": club_id}},
+        {"$group": {
+            "_id": "$player_id",
+            "player_name": {"$first": "$player_name"},
+            "position": {"$first": "$position"},
+            "total_minutes": {"$sum": "$minutes_played"}
+        }},
+        {"$sort": {"total_minutes": -1}},
+        {"$limit": 11}
+    ]
+    top_players = mongo.db.player_lineup.aggregate(pipeline)
+    return list(top_players)
+
+
 def generate_player_lineups_by_season():
     # Colecciones
     games_collection = mongo.db['games']
@@ -62,18 +79,3 @@ def generate_player_lineups_by_season():
 
     return 'response: Se ha añadido con éxito.'
 
-def get_best_players_by_season_and_team(season, club_id):
-    # Obtener jugadores con más minutos jugados por temporada y club
-    pipeline = [
-        {"$match": {"season": season, "club_id": club_id}},
-        {"$group": {
-            "_id": "$player_id",
-            "player_name": {"$first": "$player_name"},
-            "position": {"$first": "$position"},
-            "total_minutes": {"$sum": "$minutes_played"}
-        }},
-        {"$sort": {"total_minutes": -1}},
-        {"$limit": 11}
-    ]
-    top_players = mongo.db.player_lineup.aggregate(pipeline)
-    return list(top_players)

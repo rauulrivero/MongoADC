@@ -19,6 +19,52 @@ auth = Authentication()
 def index():
     return jsonify({"message": "API de Football Analytics"})
 
+
+# RUTAS DE INICIALIZACIÓN DE BASE DE DATOS
+
+
+@api.route('/initialize_database', methods=['GET'])
+def initialize_database():
+    try:
+        # Inicializar la base de datos con los datos de fútbol
+        init_df_football()
+
+        print("Datos de fútbol inicializados")
+
+        # Insertar DataFrame normalizado
+        insert_normalized_df()
+
+        print("DataFrame normalizado insertado")
+
+        # Inserción de datos de cluster de jugadores
+        insert_players_df()
+
+        print("Datos de jugadores insertados")
+
+        # Generar datos de alineaciones de jugadores por temporada
+        generate_player_lineups_by_season()
+
+        print("Datos de alineaciones de jugadores generados")
+    
+        # Inserción de datos de cluster de jugadores
+        insert_clusters()
+
+        print("Datos de cluster de jugadores insertados")
+
+        # Devolver una respuesta del éxito de la inicialización
+        return jsonify({
+            "message": "Inicialización de la base de datos completa"
+        }), 200
+
+    except Exception as e:
+        # En caso de un error, devolver un mensaje indicando el fallo en la inicialización
+        return jsonify({"error": str(e)}), 500
+    
+
+
+# RUTAS DE USUARIO
+
+
 @api.route('/create_user', methods=['POST'])
 def create_user():
     data = request.get_json()
@@ -61,19 +107,9 @@ def logout():
     return jsonify({"message": "Cierre de sesión exitoso"}), 200
 
 
-@api.route('/predict_winner', methods=['POST'])
-def compare_teams_route():
-    data = request.get_json()
-    
-    if not all([data['local_team_id'], data['away_team_id']]):
-        return json.dumps({"error": "Se requieren los IDs de los clubes 'local_team_id' y 'away_team_id'."}), 400
-    
-    local_team_id = data['local_team_id']
-    away_team_id = data['away_team_id']
-    
-    result = compare_teams(local_team_id, away_team_id)
-    
-    return json.dumps({"prediction": result})
+
+# RUTAS DE CONSULTA DE DATOS
+
 
 @api.route('/get_competitions', methods=['GET'])
 def get_competitions_route():
@@ -90,6 +126,23 @@ def get_seasons():
     result = mongo_service.get_seasons()
     return json.dumps(result)
 
+
+@api.route('/get_players', methods=['GET'])
+def get_players_route():
+    result = mongo_service.get_players()
+    return json.dumps(result)
+
+
+@api.route('/get_teams_by_season/<competition_id>/<int:season>', methods=['GET'])
+def get_teams_by_season_route(competition_id, season):
+    result = mongo_service.get_teams_by_season(competition_id, season)
+    return json.dumps(result)
+
+
+
+
+# RUTAS DE PREDICCIÓN Y ANÁLISIS DE DATOS
+
 @api.route('/get_best_players_by_season_and_team', methods=['POST'])
 def get_best_players_by_season_and_team_route():
     data = request.get_json()
@@ -103,55 +156,21 @@ def get_best_players_by_season_and_team_route():
     result = get_best_players_by_season_and_team(season, club_id)
     return json.dumps(result)
 
-@api.route('/get_teams_by_season/<competition_id>/<int:season>', methods=['GET'])
-def get_teams_by_season_route(competition_id, season):
-    result = mongo_service.get_teams_by_season(competition_id, season)
-    return json.dumps(result)
+@api.route('/predict_winner', methods=['POST'])
+def compare_teams_route():
+    data = request.get_json()
+    
+    if not all([data['local_team_id'], data['away_team_id']]):
+        return json.dumps({"error": "Se requieren los IDs de los clubes 'local_team_id' y 'away_team_id'."}), 400
+    
+    local_team_id = data['local_team_id']
+    away_team_id = data['away_team_id']
+    
+    result = compare_teams(local_team_id, away_team_id)
+    
+    return json.dumps({"prediction": result})
 
 @api.route("/get_player_rank/<player_id>", methods=['GET'])
 def get_player_rank_route(player_id):
     result = get_player_rank(player_id)
     return json.dumps(result)
-
-@api.route('/get_players', methods=['GET'])
-def get_players_route():
-    result = mongo_service.get_players()
-    return json.dumps(result)
-
-
-@api.route('/initialize_database', methods=['GET'])
-def initialize_database():
-    try:
-        # Inicializar la base de datos con los datos de fútbol
-        init_df_football()
-
-        print("Datos de fútbol inicializados")
-
-        # Insertar DataFrame normalizado
-        insert_normalized_df()
-
-        print("DataFrame normalizado insertado")
-
-        # Inserción de datos de cluster de jugadores
-        insert_players_df()
-
-        print("Datos de jugadores insertados")
-
-        # Generar datos de alineaciones de jugadores por temporada
-        generate_player_lineups_by_season()
-
-        print("Datos de alineaciones de jugadores generados")
-    
-        # Inserción de datos de cluster de jugadores
-        insert_clusters()
-
-        print("Datos de cluster de jugadores insertados")
-
-        # Devolver una respuesta del éxito de la inicialización
-        return jsonify({
-            "message": "Inicialización de la base de datos completa"
-        }), 200
-
-    except Exception as e:
-        # En caso de un error, devolver un mensaje indicando el fallo en la inicialización
-        return jsonify({"error": str(e)}), 500
