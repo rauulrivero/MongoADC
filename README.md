@@ -102,3 +102,4 @@ Esta funcionalidad permite a los usuarios comparar dos jugadores de diferentes e
 
 - Selecciona dos jugadores de cualquier equipo dentro de las ligas cubiertas y desde 2012.
 - La app analizará su rendimiento y te indicará cuál de los dos es mejor según las métricas definidas.
+  
